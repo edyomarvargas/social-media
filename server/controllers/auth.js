@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 // Register user
@@ -8,7 +9,7 @@ const register = async (req, res) => {
       picturePath, friends, location, occupation } = req.body;
 
     const salt = await bcrypt.genSalt();
-    const passwordHash = bcrypt.hash(password, salt);
+    const passwordHash = await bcrypt.hash(password, salt);
 
     const newUser = new User({
       firstName,
@@ -19,8 +20,8 @@ const register = async (req, res) => {
       friends,
       location,
       occupation, 
-      viewedProfile: Math.floor(Math.randon() * 1000),
-      impressions: Math.floor(Math.randon() * 1000),
+      viewedProfile: Math.floor(Math.random() * 1000),
+      impressions: Math.floor(Math.random() * 1000),
     });
 
     const savedUser = await newUser.save();
@@ -31,4 +32,29 @@ const register = async (req, res) => {
   }
 };
 
-export default register;
+// Login user
+const login = async (req, res) => {
+  console.log('passou aqui');
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: 'User does not exist' });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    delete user.password;
+
+    return res.status(200).json({ token, user });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+export {
+  register,
+  login,
+};
