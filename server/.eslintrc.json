@@ -7,7 +7,7 @@
   },
   "overrides": [
     {
-      "files": ["**/controllers/auth.js"], 
+      "files": ["**/controllers/**.js"], 
       "rules": {
         "max-lines-per-function": "off"
       }
