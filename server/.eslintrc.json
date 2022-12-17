@@ -5,5 +5,19 @@
     "sonarjs/no-duplicate-string": ["error", 5],
     "no-underscore-dangle": 0
   },
+  "overrides": [
+    {
+      "files": ["**/controllers/auth.js"], 
+      "rules": {
+        "max-lines-per-function": "off"
+      }
+    },
+    {
+      "files": ["**.js"], 
+      "rules": {
+        "import/extensions": "off"
+      }
+    }
+  ],
   "parserOptions": { "ecmaVersion": 2020 }
 }
