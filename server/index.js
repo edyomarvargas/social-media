@@ -9,7 +9,8 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { register } from './controllers/auth.js';
-import authRoutes from './routes/index.js';
+import authRoute from './routes/auth.js';
+import usersRoute from './routes/users.js';
 
 // Configurations
 const __filename = fileURLToPath(import.meta.url);
@@ -40,7 +41,8 @@ const upload = multer({ storage });
 app.post('/auth/register', upload.single('picture'), register);
 
 // Routes
-app.use('/auth', authRoutes);
+app.use('/auth', authRoute);
+app.use('/users', usersRoute);
 
 // Mongoose setup
 const PORT = process.env.PORT || 6001;
