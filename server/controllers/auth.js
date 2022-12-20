@@ -34,7 +34,6 @@ const register = async (req, res) => {
 
 // Login user
 const login = async (req, res) => {
-  console.log('passou aqui');
   try {
     const { email, password } = req.body;
 
