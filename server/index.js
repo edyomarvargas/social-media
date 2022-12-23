@@ -7,15 +7,20 @@ import multer from 'multer';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
+import swaggerUi from 'swagger-ui-express';
 import { fileURLToPath } from 'url';
+import swaggerDocs from './swagger.json' assert { type: 'json' };
+import authRoutes from './routes/auth.js';
+import userRoutes from './routes/users.js';
+import postRoutes from './routes/posts.js';
 import { register } from './controllers/auth.js';
 import { createPost } from './controllers/post.js';
-import authRoute from './routes/auth.js';
-import usersRoute from './routes/users.js';
-import postRoute from './routes/posts.js';
 import verifyToken from './middleware/auth.js';
+// import User from "./models/User.js";
+// import Post from "./models/Post.js";
+// import { users, posts } from "./data/index.js";
 
-// Configurations
+/* CONFIGURATIONS */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config();
@@ -27,34 +32,39 @@ app.use(morgan('common'));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// File storage
+/* FILE STORAGE */
 const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, 'assets');
+  destination(req, file, cb) {
+    cb(null, 'public/assets');
   },
-  filename: (_req, file, cb) => {
+  filename(req, file, cb) {
     cb(null, file.originalname);
   },
 });
 const upload = multer({ storage });
 
-// Routes with files
+/* ROUTES WITH FILES */
 app.post('/auth/register', upload.single('picture'), register);
 app.post('/posts', verifyToken, upload.single('picture'), createPost);
 
-// Routes
-app.use('/auth', authRoute);
-app.use('/users', usersRoute);
-app.use('/posts', postRoute);
+/* ROUTES */
+app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
+app.use('/posts', postRoutes);
 
-// Mongoose setup
+/* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
-
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
-  app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
-}).catch((error) => console.log(error.message));
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    // User.insertMany(users);
+    // Post.insertMany(posts);
+  })
+  .catch((error) => console.log(error));
