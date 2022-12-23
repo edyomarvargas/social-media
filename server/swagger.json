@@ -1,1 +1,229 @@
-{}
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Social Media",
+    "description": "Mock of a social media application",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Edyomar Vargas",
+      "email": "edyomar-vargas@hotmail.com"
+    }
+  },
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Register a new user",
+        "description": "Endpoint responsable for registering new users",
+        "tags": ["Auth"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "firstName": {
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "picturePath": {
+                      "type": "string"
+                    },
+                    "friends": {
+                      "type": "array"
+                    },
+                    "viewedProfile": {
+                      "type": "number"
+                    },
+                    "impressions": {
+                      "type": "number"
+                    },
+                    "_id": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "date"
+                    },
+                    "updatedAt": {
+                      "type": "date"
+                    }
+                  },
+                  "example": {
+                    "firstName": "Nathaniel",
+                    "lastName": "Key",
+                    "email": "nathanielmkey@teleworm.com",
+                    "password": "$2b$10$gs1MPxGCBuUPpEl0rPXcHOJVMH/8WO5itZAOA6WmQbIiR8bJEsLJS",
+                    "picturePath": "",
+                    "friends": [],
+                    "location": "Oklahoma City",
+                    "viewedProfile": 988,
+                    "impressions": 309,
+                    "_id": "63a60a3745924780fde8b2d2",
+                    "createdAt": "2022-12-23T20:06:15.206Z",
+                    "updatedAt": "2022-12-23T20:06:15.206Z"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Log in",
+        "description": "Endpoint responsable for loggin in an already registered user",
+        "tags": ["Auth"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object"
+                    }
+                  },
+                  "example": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYTYwYTM3NDU5MjQ3ODBmZGU4YjJkMiIsImlhdCI6MTY3MTgyNjE1MX0.-BDpMUcOczRZnbV7dwww5EhD1VzjNgmGJ4cFT6dk5fI",
+                    "user": {
+                      "_id": "63a60a3745924780fde8b2d2",
+                      "firstName": "Nathaniel",
+                      "lastName": "Key",
+                      "email": "nathanielmkey@teleworm.com",
+                      "password": "$2b$10$gs1MPxGCBuUPpEl0rPXcHOJVMH/8WO5itZAOA6WmQbIiR8bJEsLJS",
+                      "picturePath": "",
+                      "friends": [],
+                      "location": "Oklahoma City",
+                      "viewedProfile": 988,
+                      "impressions": 309,
+                      "createdAt": "2022-12-23T20:06:15.206Z",
+                      "updatedAt": "2022-12-23T20:06:15.206Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "Invalid credentials"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "user": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "ocupation": {
+            "type": "string"
+          },
+          "picturePath": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "firstName": "Nathaniel",
+          "lastName": "Key",
+          "location": "Oklahoma City",
+          "ocupation": "Personnel administrator",
+          "picturePath": "",
+          "email": "nathanielmkey@teleworm.com",
+          "password": "uroo8ahR6"
+        }
+      },
+      "userLogin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "nathanielmkey@teleworm.com",
+          "password": "uroo8ahR6"
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
