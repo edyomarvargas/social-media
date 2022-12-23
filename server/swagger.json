@@ -163,6 +163,187 @@
           }
         }
       }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Search user by id",
+        "description": "Endpoint responsable for searching users by id",
+        "tags": ["User"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "user id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "item": {
+                    "$ref": "#/components/schemas/user"
+                  },
+                  "example": {
+                    "_id": "63a60a3745924780fde8b2d2",
+                    "firstName": "Nathaniel",
+                    "lastName": "Key",
+                    "email": "nathanielmkey@teleworm.com",
+                    "password": "$2b$10$gs1MPxGCBuUPpEl0rPXcHOJVMH/8WO5itZAOA6WmQbIiR8bJEsLJS",
+                    "picturePath": "",
+                    "friends": [
+                      "63a47f176de7ced69b5d70f4",
+                      "63a47f176de7ced69b5d70f6"
+                    ],
+                    "location": "Oklahoma City",
+                    "viewedProfile": 988,
+                    "impressions": 309,
+                    "createdAt": "2022-12-23T20:06:15.206Z",
+                    "updatedAt": "2022-12-23T21:02:11.650Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/{id}/friends": {
+      "get": {
+        "summary": "Search friends by user id",
+        "description": "Endpoint responsable for searching friends by user's id",
+        "tags": ["User"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "user id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "example": [
+                    {
+                      "_id": "63a47f176de7ced69b5d70f4",
+                      "firstName": "Steve",
+                      "lastName": "Ralph",
+                      "occupation": "Degenerate",
+                      "location": "New York, CA",
+                      "picturePath": "p3.jpeg"
+                    },
+                    {
+                      "_id": "63a47f176de7ced69b5d70f6",
+                      "firstName": "Whatcha",
+                      "lastName": "Doing",
+                      "occupation": "Educator",
+                      "location": "Korea, CA",
+                      "picturePath": "p6.jpeg"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/{id}/{friendId}": {
+      "patch": {
+        "summary": "Add/Remove friend",
+        "description": "Endpoint responsable for adding or removing a friend",
+        "tags": ["User"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true
+          },
+          {
+            "name": "friendId",
+            "in": "path",
+            "description": "Friend id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "example": [
+                    {
+                      "_id": "63a47f176de7ced69b5d70f4",
+                      "firstName": "Steve",
+                      "lastName": "Ralph",
+                      "occupation": "Degenerate",
+                      "location": "New York, CA",
+                      "picturePath": "p3.jpeg"
+                    },
+                    {
+                      "_id": "63a47f176de7ced69b5d70f6",
+                      "firstName": "Whatcha",
+                      "lastName": "Doing",
+                      "occupation": "Educator",
+                      "location": "Korea, CA",
+                      "picturePath": "p6.jpeg"
+                    },
+                    {
+                      "_id": "63a47f176de7ced69b5d70f9",
+                      "firstName": "Carly",
+                      "lastName": "Vowel",
+                      "occupation": "Nurse",
+                      "location": "Chicago, IL",
+                      "picturePath": "p8.jpeg"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "components": {
