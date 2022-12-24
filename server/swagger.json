@@ -534,6 +534,69 @@
           }
         }
       }
+    },
+    "/posts/{userId}/like": {
+      "patch": {
+        "summary": "Like/dislike post",
+        "description": "Endpoint responsable for liking/disliking posts by user's id",
+        "tags": ["Post"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "item": {
+                    "$ref": "#/components/schemas/posts"
+                  },
+                  "example": {
+                    "_id": "63a47f176de7ced69b5d70fb",
+                    "userId": "63a47f176de7ced69b5d70f4",
+                    "firstName": "Steve",
+                    "lastName": "Ralph",
+                    "location": "New York, CA",
+                    "description": "Some really long random description",
+                    "picturePath": "post1.jpeg",
+                    "userPicturePath": "p3.jpeg",
+                    "likes": {
+                      "63a47f176de7ced69b5d70f3": true,
+                      "63a47f176de7ced69b5d70f5": true,
+                      "63a47f176de7ced69b5d70f6": true,
+                      "63a47f176de7ced69b5d70f7": true,
+                      "63a48735bb046489e9b7982b": true,
+                      "63a60a3745924780fde8b2d2": true
+                    },
+                    "comments": [
+                      "random comment",
+                      "another random comment",
+                      "yet another random comment"
+                    ],
+                    "__v": 0,
+                    "createdAt": "2022-12-22T16:00:24.580Z",
+                    "updatedAt": "2022-12-24T20:17:54.045Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "components": {
