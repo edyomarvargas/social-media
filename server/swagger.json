@@ -344,6 +344,142 @@
           }
         }
       }
+    },
+    "/post": {
+      "post": {
+        "summary": "Create a new post",
+        "description": "Endpoint responsable for creating a new post",
+        "tags": ["Post"],
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createPost"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "example": [
+                    {
+                      "_id": "63a739ead32d57f7a3e2cf77",
+                      "userId": "63a60a3745924780fde8b2d2",
+                      "firstName": "Nathaniel",
+                      "lastName": "Key",
+                      "location": "Oklahoma City",
+                      "description": "Description of my fabulous post",
+                      "picturePath": "",
+                      "userPicturePath": "",
+                      "likes": {},
+                      "comments": [],
+                      "createdAt": "2022-12-24T17:42:02.141Z",
+                      "updatedAt": "2022-12-24T17:42:02.141Z",
+                      "__v": 0
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "summary": "Search all posts",
+        "description": "Endpoint responsable for searching all posts",
+        "tags": ["Post"],
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "item": {
+                    "$ref": "#/components/schemas/posts"
+                  },
+                  "example": [
+                    {
+                      "_id": "63a47f176de7ced69b5d70fb",
+                      "userId": "63a47f176de7ced69b5d70f4",
+                      "firstName": "Steve",
+                      "lastName": "Ralph",
+                      "location": "New York, CA",
+                      "description": "Some really long random description",
+                      "picturePath": "post1.jpeg",
+                      "userPicturePath": "p3.jpeg",
+                      "likes": {
+                        "63a47f176de7ced69b5d70f3": true,
+                        "63a47f176de7ced69b5d70f5": true,
+                        "63a47f176de7ced69b5d70f6": true,
+                        "63a47f176de7ced69b5d70f7": true,
+                        "63a48735bb046489e9b7982b": true
+                      },
+                      "comments": [
+                        "random comment",
+                        "another random comment",
+                        "yet another random comment"
+                      ],
+                      "__v": 0,
+                      "createdAt": "2022-12-22T16:00:24.580Z",
+                      "updatedAt": "2022-12-23T14:54:49.967Z"
+                    },
+                    {
+                      "_id": "63a47f176de7ced69b5d70fc",
+                      "userId": "63a47f176de7ced69b5d70f6",
+                      "firstName": "Whatcha",
+                      "lastName": "Doing",
+                      "location": "Korea, CA",
+                      "description": "Another really long random description. This one is longer than the previous one.",
+                      "picturePath": "post2.jpeg",
+                      "userPicturePath": "p6.jpeg",
+                      "likes": {
+                        "63a47f176de7ced69b5d70fa": true,
+                        "63a47f176de7ced69b5d70f7": true,
+                        "63a47f176de7ced69b5d70f4": true,
+                        "63a47f176de7ced69b5d70f5": true
+                      },
+                      "comments": [
+                        "one more random comment",
+                        "and another random comment",
+                        "no more random comments",
+                        "I lied, one more random comment"
+                      ],
+                      "__v": 0,
+                      "createdAt": "2022-12-22T16:00:24.581Z",
+                      "updatedAt": "2022-12-23T14:53:48.025Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -396,6 +532,69 @@
         "example": {
           "email": "nathanielmkey@teleworm.com",
           "password": "uroo8ahR6"
+        }
+      },
+      "posts": {
+        "type": "array",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "picturePath": {
+            "type": "string"
+          },
+          "userPicturePath": {
+            "type": "string"
+          },
+          "likes": {
+            "type": "object"
+          },
+          "comments": {
+            "type": "array"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "firstName": "Nathaniel",
+          "lastName": "Key",
+          "location": "Oklahoma City",
+          "ocupation": "Personnel administrator",
+          "picturePath": "",
+          "email": "nathanielmkey@teleworm.com",
+          "password": "uroo8ahR6"
+        }
+      },
+      "createPost": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "picturePath": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "userId": "63a60a3745924780fde8b2d2",
+          "description": "Description of my fabulous post",
+          "picturePath": ""	
         }
       }
     },
