@@ -345,7 +345,7 @@
         }
       }
     },
-    "/post": {
+    "/posts": {
       "post": {
         "summary": "Create a new post",
         "description": "Endpoint responsable for creating a new post",
@@ -466,6 +466,60 @@
                       "__v": 0,
                       "createdAt": "2022-12-22T16:00:24.581Z",
                       "updatedAt": "2022-12-23T14:53:48.025Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/posts/{userId}/posts": {
+      "get": {
+        "summary": "Search posts by user's id",
+        "description": "Endpoint responsable for searching posts by user's id",
+        "tags": ["Post"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "item": {
+                    "$ref": "#/components/schemas/posts"
+                  },
+                  "example": [
+                    {
+                      "_id": "63a739ead32d57f7a3e2cf77",
+                      "userId": "63a60a3745924780fde8b2d2",
+                      "firstName": "Nathaniel",
+                      "lastName": "Key",
+                      "location": "Oklahoma City",
+                      "description": "Description of my fabulous post",
+                      "picturePath": "",
+                      "userPicturePath": "",
+                      "likes": {},
+                      "comments": [],
+                      "createdAt": "2022-12-24T17:42:02.141Z",
+                      "updatedAt": "2022-12-24T17:42:02.141Z",
+                      "__v": 0
                     }
                   ]
                 }
