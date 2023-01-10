@@ -1,0 +1,726 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Social Media",
+    "description": "Mock of a social media application",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Edyomar Vargas",
+      "email": "edyomar-vargas@hotmail.com"
+    }
+  },
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Register a new user",
+        "description": "Endpoint responsable for registering new users",
+        "tags": ["Auth"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "firstName": {
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "picturePath": {
+                      "type": "string"
+                    },
+                    "friends": {
+                      "type": "array"
+                    },
+                    "viewedProfile": {
+                      "type": "number"
+                    },
+                    "impressions": {
+                      "type": "number"
+                    },
+                    "_id": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "date"
+                    },
+                    "updatedAt": {
+                      "type": "date"
+                    }
+                  },
+                  "example": {
+                    "firstName": "Nathaniel",
+                    "lastName": "Key",
+                    "email": "nathanielmkey@teleworm.com",
+                    "password": "$2b$10$gs1MPxGCBuUPpEl0rPXcHOJVMH/8WO5itZAOA6WmQbIiR8bJEsLJS",
+                    "picturePath": "",
+                    "friends": [],
+                    "location": "Oklahoma City",
+                    "viewedProfile": 988,
+                    "impressions": 309,
+                    "_id": "63a60a3745924780fde8b2d2",
+                    "createdAt": "2022-12-23T20:06:15.206Z",
+                    "updatedAt": "2022-12-23T20:06:15.206Z"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Log in",
+        "description": "Endpoint responsable for loggin in an already registered user",
+        "tags": ["Auth"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object"
+                    }
+                  },
+                  "example": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYTYwYTM3NDU5MjQ3ODBmZGU4YjJkMiIsImlhdCI6MTY3MTgyNjE1MX0.-BDpMUcOczRZnbV7dwww5EhD1VzjNgmGJ4cFT6dk5fI",
+                    "user": {
+                      "_id": "63a60a3745924780fde8b2d2",
+                      "firstName": "Nathaniel",
+                      "lastName": "Key",
+                      "email": "nathanielmkey@teleworm.com",
+                      "password": "$2b$10$gs1MPxGCBuUPpEl0rPXcHOJVMH/8WO5itZAOA6WmQbIiR8bJEsLJS",
+                      "picturePath": "",
+                      "friends": [],
+                      "location": "Oklahoma City",
+                      "viewedProfile": 988,
+                      "impressions": 309,
+                      "createdAt": "2022-12-23T20:06:15.206Z",
+                      "updatedAt": "2022-12-23T20:06:15.206Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "Invalid credentials"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Search user by id",
+        "description": "Endpoint responsable for searching users by id",
+        "tags": ["User"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "user id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "item": {
+                    "$ref": "#/components/schemas/user"
+                  },
+                  "example": {
+                    "_id": "63a60a3745924780fde8b2d2",
+                    "firstName": "Nathaniel",
+                    "lastName": "Key",
+                    "email": "nathanielmkey@teleworm.com",
+                    "password": "$2b$10$gs1MPxGCBuUPpEl0rPXcHOJVMH/8WO5itZAOA6WmQbIiR8bJEsLJS",
+                    "picturePath": "",
+                    "friends": [
+                      "63a47f176de7ced69b5d70f4",
+                      "63a47f176de7ced69b5d70f6"
+                    ],
+                    "location": "Oklahoma City",
+                    "viewedProfile": 988,
+                    "impressions": 309,
+                    "createdAt": "2022-12-23T20:06:15.206Z",
+                    "updatedAt": "2022-12-23T21:02:11.650Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/{id}/friends": {
+      "get": {
+        "summary": "Search friends by user id",
+        "description": "Endpoint responsable for searching friends by user's id",
+        "tags": ["User"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "user id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "example": [
+                    {
+                      "_id": "63a47f176de7ced69b5d70f4",
+                      "firstName": "Steve",
+                      "lastName": "Ralph",
+                      "occupation": "Degenerate",
+                      "location": "New York, CA",
+                      "picturePath": "p3.jpeg"
+                    },
+                    {
+                      "_id": "63a47f176de7ced69b5d70f6",
+                      "firstName": "Whatcha",
+                      "lastName": "Doing",
+                      "occupation": "Educator",
+                      "location": "Korea, CA",
+                      "picturePath": "p6.jpeg"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/{id}/{friendId}": {
+      "patch": {
+        "summary": "Add/Remove friend",
+        "description": "Endpoint responsable for adding or removing a friend",
+        "tags": ["User"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true
+          },
+          {
+            "name": "friendId",
+            "in": "path",
+            "description": "Friend id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "example": [
+                    {
+                      "_id": "63a47f176de7ced69b5d70f4",
+                      "firstName": "Steve",
+                      "lastName": "Ralph",
+                      "occupation": "Degenerate",
+                      "location": "New York, CA",
+                      "picturePath": "p3.jpeg"
+                    },
+                    {
+                      "_id": "63a47f176de7ced69b5d70f6",
+                      "firstName": "Whatcha",
+                      "lastName": "Doing",
+                      "occupation": "Educator",
+                      "location": "Korea, CA",
+                      "picturePath": "p6.jpeg"
+                    },
+                    {
+                      "_id": "63a47f176de7ced69b5d70f9",
+                      "firstName": "Carly",
+                      "lastName": "Vowel",
+                      "occupation": "Nurse",
+                      "location": "Chicago, IL",
+                      "picturePath": "p8.jpeg"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/posts": {
+      "post": {
+        "summary": "Create a new post",
+        "description": "Endpoint responsable for creating a new post",
+        "tags": ["Post"],
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createPost"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "example": [
+                    {
+                      "_id": "63a739ead32d57f7a3e2cf77",
+                      "userId": "63a60a3745924780fde8b2d2",
+                      "firstName": "Nathaniel",
+                      "lastName": "Key",
+                      "location": "Oklahoma City",
+                      "description": "Description of my fabulous post",
+                      "picturePath": "",
+                      "userPicturePath": "",
+                      "likes": {},
+                      "comments": [],
+                      "createdAt": "2022-12-24T17:42:02.141Z",
+                      "updatedAt": "2022-12-24T17:42:02.141Z",
+                      "__v": 0
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "summary": "Search all posts",
+        "description": "Endpoint responsable for searching all posts",
+        "tags": ["Post"],
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "item": {
+                    "$ref": "#/components/schemas/posts"
+                  },
+                  "example": [
+                    {
+                      "_id": "63a47f176de7ced69b5d70fb",
+                      "userId": "63a47f176de7ced69b5d70f4",
+                      "firstName": "Steve",
+                      "lastName": "Ralph",
+                      "location": "New York, CA",
+                      "description": "Some really long random description",
+                      "picturePath": "post1.jpeg",
+                      "userPicturePath": "p3.jpeg",
+                      "likes": {
+                        "63a47f176de7ced69b5d70f3": true,
+                        "63a47f176de7ced69b5d70f5": true,
+                        "63a47f176de7ced69b5d70f6": true,
+                        "63a47f176de7ced69b5d70f7": true,
+                        "63a48735bb046489e9b7982b": true
+                      },
+                      "comments": [
+                        "random comment",
+                        "another random comment",
+                        "yet another random comment"
+                      ],
+                      "__v": 0,
+                      "createdAt": "2022-12-22T16:00:24.580Z",
+                      "updatedAt": "2022-12-23T14:54:49.967Z"
+                    },
+                    {
+                      "_id": "63a47f176de7ced69b5d70fc",
+                      "userId": "63a47f176de7ced69b5d70f6",
+                      "firstName": "Whatcha",
+                      "lastName": "Doing",
+                      "location": "Korea, CA",
+                      "description": "Another really long random description. This one is longer than the previous one.",
+                      "picturePath": "post2.jpeg",
+                      "userPicturePath": "p6.jpeg",
+                      "likes": {
+                        "63a47f176de7ced69b5d70fa": true,
+                        "63a47f176de7ced69b5d70f7": true,
+                        "63a47f176de7ced69b5d70f4": true,
+                        "63a47f176de7ced69b5d70f5": true
+                      },
+                      "comments": [
+                        "one more random comment",
+                        "and another random comment",
+                        "no more random comments",
+                        "I lied, one more random comment"
+                      ],
+                      "__v": 0,
+                      "createdAt": "2022-12-22T16:00:24.581Z",
+                      "updatedAt": "2022-12-23T14:53:48.025Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/posts/{userId}/posts": {
+      "get": {
+        "summary": "Search posts by user's id",
+        "description": "Endpoint responsable for searching posts by user's id",
+        "tags": ["Post"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "item": {
+                    "$ref": "#/components/schemas/posts"
+                  },
+                  "example": [
+                    {
+                      "_id": "63a739ead32d57f7a3e2cf77",
+                      "userId": "63a60a3745924780fde8b2d2",
+                      "firstName": "Nathaniel",
+                      "lastName": "Key",
+                      "location": "Oklahoma City",
+                      "description": "Description of my fabulous post",
+                      "picturePath": "",
+                      "userPicturePath": "",
+                      "likes": {},
+                      "comments": [],
+                      "createdAt": "2022-12-24T17:42:02.141Z",
+                      "updatedAt": "2022-12-24T17:42:02.141Z",
+                      "__v": 0
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/posts/{userId}/like": {
+      "patch": {
+        "summary": "Like/dislike post",
+        "description": "Endpoint responsable for liking/disliking posts by user's id",
+        "tags": ["Post"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "item": {
+                    "$ref": "#/components/schemas/posts"
+                  },
+                  "example": {
+                    "_id": "63a47f176de7ced69b5d70fb",
+                    "userId": "63a47f176de7ced69b5d70f4",
+                    "firstName": "Steve",
+                    "lastName": "Ralph",
+                    "location": "New York, CA",
+                    "description": "Some really long random description",
+                    "picturePath": "post1.jpeg",
+                    "userPicturePath": "p3.jpeg",
+                    "likes": {
+                      "63a47f176de7ced69b5d70f3": true,
+                      "63a47f176de7ced69b5d70f5": true,
+                      "63a47f176de7ced69b5d70f6": true,
+                      "63a47f176de7ced69b5d70f7": true,
+                      "63a48735bb046489e9b7982b": true,
+                      "63a60a3745924780fde8b2d2": true
+                    },
+                    "comments": [
+                      "random comment",
+                      "another random comment",
+                      "yet another random comment"
+                    ],
+                    "__v": 0,
+                    "createdAt": "2022-12-22T16:00:24.580Z",
+                    "updatedAt": "2022-12-24T20:17:54.045Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "user": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "ocupation": {
+            "type": "string"
+          },
+          "picturePath": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "firstName": "Nathaniel",
+          "lastName": "Key",
+          "location": "Oklahoma City",
+          "ocupation": "Personnel administrator",
+          "picturePath": "",
+          "email": "nathanielmkey@teleworm.com",
+          "password": "uroo8ahR6"
+        }
+      },
+      "userLogin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "nathanielmkey@teleworm.com",
+          "password": "uroo8ahR6"
+        }
+      },
+      "posts": {
+        "type": "array",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "picturePath": {
+            "type": "string"
+          },
+          "userPicturePath": {
+            "type": "string"
+          },
+          "likes": {
+            "type": "object"
+          },
+          "comments": {
+            "type": "array"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "firstName": "Nathaniel",
+          "lastName": "Key",
+          "location": "Oklahoma City",
+          "ocupation": "Personnel administrator",
+          "picturePath": "",
+          "email": "nathanielmkey@teleworm.com",
+          "password": "uroo8ahR6"
+        }
+      },
+      "createPost": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "picturePath": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "userId": "63a60a3745924780fde8b2d2",
+          "description": "Description of my fabulous post",
+          "picturePath": ""	
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
